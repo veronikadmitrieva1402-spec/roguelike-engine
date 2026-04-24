@@ -1,0 +1,12 @@
+[
+    {
+        "id": "potion_hp",
+        "name": "Зелье здоровья",
+        "type": "potion",
+        "effect": {
+            "type": "heal",
+            "value": 25,
+            "description": "Восстанавливает 25 HP"
+        }
+    }
+]

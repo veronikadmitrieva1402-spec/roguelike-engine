@@ -1,0 +1,8 @@
+{
+    "name": "Hero",
+    "maxHP": 100,
+    "currentHP": 100,
+    "attack": 15,
+    "protection": 5,
+    "startPosition": { "x": 1, "y": 1 }
+}

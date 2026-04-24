@@ -1,0 +1,11 @@
+[
+    {
+        "id": "goblin",
+        "name": "Goblin",
+        "maxHP": 30,
+        "currentHP": 30,
+        "attack": 8,
+        "protection": 2,
+        "description": "Мелкий злобный гоблин"
+    }
+]

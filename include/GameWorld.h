@@ -30,6 +30,7 @@ public:
     
     bool loadMap(const std::string& filePath);
     bool isWalkable(int x, int y) const;
+    bool isExit(int x, int y) const;
     void display() const;
     
     Enemy* getEnemyAt(int x, int y);

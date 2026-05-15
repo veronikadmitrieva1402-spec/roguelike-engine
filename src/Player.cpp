@@ -74,7 +74,11 @@ bool Player::move(int dx, int dy, GameWorld& world) {
         enemy->takeDamage(damage);
         Logger::getInstance().log(name + " атакует " + enemy->getName() + " на " + std::to_string(damage) + " урона");
         
-        if (!enemy->isAlive()) {
+        if (enemy->isAlive()) {
+            int enemyDamage = enemy->getAttack();
+            takeDamage(enemyDamage);
+            Logger::getInstance().log(enemy->getName() + " атакует в ответ на " + std::to_string(enemyDamage) + " урона");
+        } else {
             Logger::getInstance().log(enemy->getName() + " повержен!");
             world.removeEnemy(newX, newY);
         }
@@ -90,9 +94,11 @@ bool Player::move(int dx, int dy, GameWorld& world) {
 void Player::pickUpItem(GameWorld& world) {
     Item* item = world.getItemAt(pos.x, pos.y);
     if (item) {
-        addItem(item);
+        Item* newItem = new Item(item->getId(), item->getName(), item->getType(), item->getEffectType(), item->getEffectValue(), item->getDescription());
+        inventory.push_back(newItem);
+        Logger::getInstance().log("Подобран предмет: " + newItem->getName());
+        std::cout << "Подобран предмет: " << newItem->getName() << std::endl;
         world.removeItem(pos.x, pos.y);
-        std::cout << "Подобран предмет: " << item->getName() << std::endl;
     } else {
         std::cout << "Здесь нет предметов." << std::endl;
     }

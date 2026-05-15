@@ -28,32 +28,45 @@ bool GameWorld::loadMap(const std::string& filePath) {
         Logger::getInstance().log("Ошибка загрузки карты: " + filePath);
         return false;
     }
+
+    for (auto e : enemies) delete e;
+    for (auto i : items) delete i;
+    for (auto t : enemyTemplates) delete t;
+    for (auto t : itemTemplates) delete t;
+    enemies.clear();
+    items.clear();
+    enemyTemplates.clear();
+    itemTemplates.clear();
+    itemPositions.clear();
     
     map.clear();
     std::string line;
     while (std::getline(file, line)) {
+        if (line.empty()) continue;
         map.push_back(line);
     }
     
+    if (map.empty()) return false;
+
     height = static_cast<int>(map.size());
-    width = height > 0 ? static_cast<int>(map[0].size()) : 0;
+    width = static_cast<int>(map[0].size());
     
     Logger::getInstance().log("Карта загружена: " + std::to_string(width) + "x" + std::to_string(height));
     return true;
 }
 
 bool GameWorld::isWalkable(int x, int y) const {
-    if (x < 0 || x >= width || y < 0 || y >= height) return false;
-    char tile = map[y][x];
-    return tile != '#';
+    if (y < 0 || y >= static_cast<int>(map.size())) return false;
+    if (x < 0 || x >= static_cast<int>(map[y].size())) return false;
+    return map[y][x] != '#';
 }
 
 void GameWorld::display() const {
     Player& p = Player::getInstance();
     Position playerPos = p.getPosition();
     
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+    for (int y = 0; y < static_cast<int>(map.size()); ++y) {
+        for (int x = 0; x < static_cast<int>(map[y].size()); ++x) {
             if (x == playerPos.x && y == playerPos.y) {
                 std::cout << '@';
             } else {
@@ -65,7 +78,8 @@ void GameWorld::display() const {
 }
 
 char GameWorld::getTile(int x, int y) const {
-    if (x < 0 || x >= width || y < 0 || y >= height) return '#';
+    if (y < 0 || y >= static_cast<int>(map.size())) return '#';
+    if (x < 0 || x >= static_cast<int>(map[y].size())) return '#';
     return map[y][x];
 }
 
@@ -94,9 +108,11 @@ void GameWorld::removeEnemy(int x, int y) {
 }
 
 Item* GameWorld::getItemAt(int x, int y) {
-    for (size_t i = 0; i < items.size(); ++i) {
+    for (size_t i = 0; i < itemPositions.size(); ++i) {
         if (itemPositions[i].x == x && itemPositions[i].y == y) {
-            return items[i];
+            if (i < items.size()) {
+                return items[i];
+            }
         }
     }
     return nullptr;
@@ -106,6 +122,10 @@ void GameWorld::removeItem(int x, int y) {
     for (size_t i = 0; i < itemPositions.size(); ++i) {
         if (itemPositions[i].x == x && itemPositions[i].y == y) {
             map[y][x] = '.';
+            if (i < items.size()) {
+                delete items[i];
+                items.erase(items.begin() + i);
+            }
             itemPositions.erase(itemPositions.begin() + i);
             Logger::getInstance().log("Предмет поднят с (" + std::to_string(x) + ", " + std::to_string(y) + ")");
             return;
@@ -151,32 +171,42 @@ void GameWorld::spawnEntitiesFromMap() {
     int enemyIndex = 0;
     int itemIndex = 0;
     
+    for (auto e : enemies) delete e;
+    for (auto i : items) delete i;
+    enemies.clear();
+    items.clear();
     itemPositions.clear();
+
+    int actualHeight = static_cast<int>(map.size());
     
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+    for (int y = 0; y < actualHeight; ++y) {
+        int actualWidth = static_cast<int>(map[y].size());
+        for (int x = 0; x < actualWidth; ++x) {
             if (map[y][x] == '?' && enemyIndex < static_cast<int>(enemyTemplates.size())) {
                 Enemy* original = enemyTemplates[enemyIndex];
                 Enemy* enemy = new Enemy(original->getId(), original->getName(), 
                                         original->getMaxHP(), original->getAttack(),
-                                        original->getProtection(), "");
+                                        original->getProtection(), original->getDescription());
                 enemy->setPosition(x, y);
                 enemies.push_back(enemy);
                 enemyIndex++;
-                Logger::getInstance().log("Враг размещён: " + enemy->getName() + " на (" + std::to_string(x) + ", " + std::to_string(y) + ")");
             }
             else if (map[y][x] == '+' && itemIndex < static_cast<int>(itemTemplates.size())) {
-                
                 Item* original = itemTemplates[itemIndex];
                 Item* item = new Item(original->getId(), original->getName(), original->getType(),
-                                     original->getEffectType(), original->getEffectValue(), original->getDescription());
+                                    original->getEffectType(), original->getEffectValue(), original->getDescription());
                 items.push_back(item);
                 itemPositions.push_back({x, y});
                 itemIndex++;
-                Logger::getInstance().log("Предмет размещён: " + item->getName() + " на (" + std::to_string(x) + ", " + std::to_string(y) + ")");
             }
         }
     }
     
     Logger::getInstance().log("Расставлено врагов: " + std::to_string(enemyIndex) + ", предметов: " + std::to_string(itemIndex));
+}
+
+bool GameWorld::isExit(int x, int y) const {
+    if (y < 0 || y >= static_cast<int>(map.size())) return false;
+    if (x < 0 || x >= static_cast<int>(map[y].size())) return false;
+    return map[y][x] == '>';
 }

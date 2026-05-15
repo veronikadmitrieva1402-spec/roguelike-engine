@@ -10,7 +10,11 @@ int Entity::getCurrentHP() const { return currentHP; }
 int Entity::getMaxHP() const { return maxHP; }
 int Entity::getAttack() const { return attack; }
 int Entity::getProtection() const { return protection; }
+void Entity::setCurrentHP(int hp) { currentHP = hp; }
+void Entity::setAttack(int atk) { attack = atk; }
+void Entity::setProtection(int prot) { protection = prot; }
 Position Entity::getPosition() const { return pos; }
+
 
 void Entity::setPosition(int x, int y)
 {

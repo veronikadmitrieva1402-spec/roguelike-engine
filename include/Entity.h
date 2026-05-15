@@ -26,6 +26,9 @@ public:
     int getProtection() const;
     Position getPosition() const;
     void setPosition(int x, int y);
+    void setCurrentHP(int hp);
+    void setAttack(int atk);
+    void setProtection(int prot);
     
     void takeDamage(int damage);
     bool isAlive() const;

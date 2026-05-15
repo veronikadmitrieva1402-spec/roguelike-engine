@@ -7,5 +7,14 @@
         "attack": 8,
         "protection": 2,
         "description": "Мелкий злобный гоблин"
+    },
+    {
+        "id": "orc",
+        "name": "Orc",
+        "maxHP": 50,
+        "currentHP": 50,
+        "attack": 12,
+        "protection": 4,
+        "description": "Большой орк"
     }
 ]

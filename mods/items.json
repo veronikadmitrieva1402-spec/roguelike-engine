@@ -8,5 +8,15 @@
             "value": 25,
             "description": "Восстанавливает 25 HP"
         }
+    },
+    {
+        "id": "sword",
+        "name": "Меч",
+        "type": "weapon",
+        "effect": {
+            "type": "attack_bonus",
+            "value": 10,
+            "description": "Увеличивает атаку на 10"
+        }
     }
 ]

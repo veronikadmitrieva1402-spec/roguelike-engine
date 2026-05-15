@@ -6,6 +6,7 @@ Enemy::Enemy(const std::string& id, const std::string& name, int maxHP, int atta
     : Entity(name, maxHP, attack, protection), id(id), description(description) {}
 
 std::string Enemy::getId() const { return id; }
+std::string Enemy::getDescription() const { return description; }
 
 void Enemy::displayInfo() const {
     Entity::displayInfo();

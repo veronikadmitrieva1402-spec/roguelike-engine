@@ -21,4 +21,5 @@ public:
     void showInventory() const;
     bool move(int dx, int dy, class GameWorld& world);
     void displayInfo() const override;
+    void pickUpItem(class GameWorld& world);
 };

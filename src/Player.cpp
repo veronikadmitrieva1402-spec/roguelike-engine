@@ -2,7 +2,8 @@
 #include "../include/Item.h"
 #include "../include/GameWorld.h"
 #include "../include/Logger.h"
-#include "json.hpp"
+#include "../include/Enemy.h"
+#include "../build/_deps/json-src/include/nlohmann/json.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -48,7 +49,7 @@ void Player::useItem(int index) {
 }
 
 void Player::showInventory() const {
-    std::cout << "=== ИНВЕНТАРЬ ===" << std::endl;
+    std::cout << " ИНВЕНТАРЬ " << std::endl;
     if (inventory.empty()) {
         std::cout << "Пусто" << std::endl;
         return;
@@ -67,8 +68,8 @@ bool Player::move(int dx, int dy, GameWorld& world) {
         return false;
     }
     
-    Entity* enemy = world.getEnemyAt(newX, newY);
-    if (enemy) {
+    Enemy* enemy = world.getEnemyAt(newX, newY);
+    if (enemy && enemy->isAlive()) {
         int damage = attack;
         enemy->takeDamage(damage);
         Logger::getInstance().log(name + " атакует " + enemy->getName() + " на " + std::to_string(damage) + " урона");
@@ -80,16 +81,21 @@ bool Player::move(int dx, int dy, GameWorld& world) {
         return true;
     }
     
-    Item* item = world.getItemAt(newX, newY);
-    if (item) {
-        addItem(item);
-        world.removeItem(newX, newY);
-    }
-    
     pos.x = newX;
     pos.y = newY;
     Logger::getInstance().log(name + " переместился на (" + std::to_string(newX) + ", " + std::to_string(newY) + ")");
     return true;
+}
+
+void Player::pickUpItem(GameWorld& world) {
+    Item* item = world.getItemAt(pos.x, pos.y);
+    if (item) {
+        addItem(item);
+        world.removeItem(pos.x, pos.y);
+        std::cout << "Подобран предмет: " << item->getName() << std::endl;
+    } else {
+        std::cout << "Здесь нет предметов." << std::endl;
+    }
 }
 
 void Player::displayInfo() const {

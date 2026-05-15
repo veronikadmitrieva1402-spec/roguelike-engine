@@ -12,5 +12,6 @@ public:
         int protection, const std::string& description);
     
     std::string getId() const;
+    std::string getDescription() const;
     void displayInfo() const override;
 };

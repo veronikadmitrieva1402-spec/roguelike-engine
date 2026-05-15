@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "../include/Logger.h"
 #include <iostream>
 #include <chrono>

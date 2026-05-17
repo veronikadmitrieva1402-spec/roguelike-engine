@@ -4,4 +4,4 @@ build/
 *.pdb
 *.obj
 *.ilk
-*.log
+*.logcmake --build build

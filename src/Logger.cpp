@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "../include/Logger.h"
+#include "Logger.h"
 #include <iostream>
 #include <chrono>
 #include <ctime>

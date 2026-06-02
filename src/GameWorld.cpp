@@ -1,9 +1,9 @@
-#include "../include/GameWorld.h"
-#include "../include/Enemy.h"
-#include "../include/Item.h"
-#include "../include/Player.h"
-#include "../include/Logger.h"
-#include "../build/_deps/json-src/include/nlohmann/json.hpp"
+#include "GameWorld.h"
+#include "Enemy.h"
+#include "Item.h"
+#include "Player.h"
+#include "Logger.h"
+#include "json.hpp"
 #include <fstream>
 #include <iostream>
 #include <queue>

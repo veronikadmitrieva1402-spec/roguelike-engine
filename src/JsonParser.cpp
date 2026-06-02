@@ -1,6 +1,6 @@
-#include "../include/JsonParser.h"
-#include "../include/Logger.h"
-#include "../build/_deps/json-src/include/nlohmann/json.hpp"
+#include "JsonParser.h"
+#include "Logger.h"
+#include "json.hpp"
 #include <fstream>
 
 using json = nlohmann::json;

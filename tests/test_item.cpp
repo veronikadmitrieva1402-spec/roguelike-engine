@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../include/Item.h"
-#include "../include/Player.h"
+#include "Item.h"
+#include "Player.h"
 
 TEST_CASE("Item creation", "[item]") {
     Item potion("potion_01", "Зелье", "potion", "heal", 25, "Лечит 25 HP");

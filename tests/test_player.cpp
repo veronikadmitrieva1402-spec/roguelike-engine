@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../include/Player.h"
-#include "../include/Item.h"
+#include "Player.h"
+#include "Item.h"
 
 TEST_CASE("Player singleton", "[player]") {
     Player& p1 = Player::getInstance();
@@ -133,21 +133,21 @@ TEST_CASE("Player load from JSON", "[player]") {
     Player& player = Player::getInstance();
     
     SECTION("Load valid JSON") {
-        REQUIRE_NOTHROW(player.loadFromJson("D:/PKS_Corse/mods/player.json"));
+        REQUIRE_NOTHROW(player.loadFromJson("/app/mods/player.json"));
     }
     
     SECTION("Load sets correct name") {
-        player.loadFromJson("D:/PKS_Corse/mods/player.json");
+        player.loadFromJson("/app/mods/player.json");
         REQUIRE(player.getName() == "Hero");
     }
     
     SECTION("Load sets HP") {
-        player.loadFromJson("D:/PKS_Corse/mods/player.json");
+        player.loadFromJson("/app/mods/player.json");
         REQUIRE(player.getMaxHP() == 100);
     }
     
     SECTION("Load sets position from JSON") {
-        player.loadFromJson("D:/PKS_Corse/mods/player.json");
+        player.loadFromJson("/app/mods/player.json");
         Position pos = player.getPosition();
         REQUIRE(pos.x == 1);
         REQUIRE(pos.y == 1);
@@ -168,7 +168,7 @@ TEST_CASE("Player position", "[player]") {
     }
     
     SECTION("Default position") {
-        player.loadFromJson("D:/PKS_Corse/mods/player.json");
+        player.loadFromJson("/app/mods/player.json");
         Position pos = player.getPosition();
         REQUIRE(pos.x >= 0);
         REQUIRE(pos.y >= 0);

@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../include/GameWorld.h"
+#include "GameWorld.h"
 
 TEST_CASE("GameWorld singleton", "[gameworld]") {
     GameWorld& gw1 = GameWorld::getInstance();
@@ -14,7 +14,7 @@ TEST_CASE("GameWorld map loading", "[gameworld]") {
     GameWorld& world = GameWorld::getInstance();
     
     SECTION("Load valid map") {
-        REQUIRE(world.loadMap("D:/PKS_Corse/mods/map_level1.csv") == true);
+        REQUIRE(world.loadMap("/app/mods/map_level1.csv") == true);
     }
     
     SECTION("Load invalid map returns false") {
@@ -22,7 +22,7 @@ TEST_CASE("GameWorld map loading", "[gameworld]") {
     }
     
     SECTION("Map dimensions after load") {
-        world.loadMap("D:/PKS_Corse/mods/map_level1.csv");
+        world.loadMap("/app/mods/map_level1.csv");
         REQUIRE(world.getWidth() > 0);
         REQUIRE(world.getHeight() > 0);
     }
@@ -30,7 +30,7 @@ TEST_CASE("GameWorld map loading", "[gameworld]") {
 
 TEST_CASE("GameWorld walkable", "[gameworld]") {
     GameWorld& world = GameWorld::getInstance();
-    world.loadMap("D:/PKS_Corse/mods/map_level1.csv");
+    world.loadMap("/app/mods/map_level1.csv");
     
     SECTION("Wall is not walkable") {
         REQUIRE(world.isWalkable(0, 0) == false);
@@ -48,7 +48,7 @@ TEST_CASE("GameWorld walkable", "[gameworld]") {
 
 TEST_CASE("GameWorld exit detection", "[gameworld]") {
     GameWorld& world = GameWorld::getInstance();
-    world.loadMap("D:/PKS_Corse/mods/map_level1.csv");
+    world.loadMap("/app/mods/map_level1.csv");
     
     int exitX = -1, exitY = -1;
     for (int y = 0; y < world.getHeight(); ++y) {

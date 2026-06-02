@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../include/Player.h"
-#include "../include/Enemy.h"
-#include "../include/Item.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Item.h"
 
 TEST_CASE("Scenario 1: Player attacks enemy and wins", "[scenario]") {
     Player& player = Player::getInstance();

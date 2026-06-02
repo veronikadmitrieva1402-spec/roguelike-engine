@@ -1,4 +1,4 @@
-#include "../include/Enemy.h"
+#include "Enemy.h"
 #include <iostream>
 
 Enemy::Enemy(const std::string& id, const std::string& name, int maxHP, int attack, 

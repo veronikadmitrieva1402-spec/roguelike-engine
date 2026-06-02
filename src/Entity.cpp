@@ -1,5 +1,5 @@
-#include "../include/Entity.h"
-#include "../include/Logger.h"
+#include "Entity.h"
+#include "Logger.h"
 #include <iostream>
 
 Entity::Entity(const std::string &name, int maxHP, int attack, int protection)

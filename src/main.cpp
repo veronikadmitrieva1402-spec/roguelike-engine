@@ -1,10 +1,30 @@
-#include "../include/Player.h"
-#include "../include/GameWorld.h"
-#include "../include/Logger.h"
+#include "Player.h"
+#include "GameWorld.h"
+#include "Logger.h"
 #include <iostream>
-#include <conio.h>
 #include <vector>
 #include <string>
+
+#ifdef _WIN32
+    #include <conio.h>
+    #define CLEAR "cls"
+    char getKey() { return _getch(); }
+#else
+    #include <termios.h>
+    #include <unistd.h>
+    #define CLEAR "clear"
+    char getKey() {
+        struct termios oldt, newt;
+        char ch;
+        tcgetattr(STDIN_FILENO, &oldt);
+        newt = oldt;
+        newt.c_lflag &= ~(ICANON | ECHO);
+        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+        ch = getchar();
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+        return ch;
+    }
+#endif
 
 int main() {
     Logger::getInstance().log(" Roguelike Engine Started ");
@@ -29,10 +49,9 @@ int main() {
     world.spawnEntitiesFromMap();
     
     bool running = true;
-    bool levelComplete = false;
     
     while (running && player.isAlive()) {
-        system("cls");
+        system(CLEAR);
         
         player.displayInfo();
         std::cout << "Уровень: " << currentLevel + 1 << std::endl << std::endl;
@@ -45,7 +64,7 @@ int main() {
             std::cout << ">>> Нажмите E для перехода на следующий уровень <<<" << std::endl;
         }
         
-        char key = _getch();
+        char key = getKey();
         
         switch (key) {
             case 'w': case 'W': player.move(0, -1, world); break;
@@ -55,7 +74,7 @@ int main() {
             case 'g': case 'G':
                 player.pickUpItem(world);
                 std::cout << "Нажмите любую клавишу...";
-                _getch();
+                getKey();
                 break;
             case 'i': case 'I':
                 player.showInventory();
@@ -66,7 +85,7 @@ int main() {
                     player.useItem(itemIndex);
                 }
                 std::cout << "Нажмите любую клавишу...";
-                _getch();
+                getKey();
                 break;
             case 'e': case 'E':
                 if (world.isExit(pos.x, pos.y)) {
@@ -81,12 +100,12 @@ int main() {
                     } else {
                         std::cout << "Вы прошли все уровни!" << std::endl;
                         std::cout << "Нажмите любую клавишу...";
-                        _getch();
+                        getKey();
                         running = false;
                     }
                 } else {
                     std::cout << "Здесь нет выхода. Нажмите любую клавишу...";
-                    _getch();
+                    getKey();
                 }
                 break;
             case 'q': case 'Q':
@@ -96,10 +115,10 @@ int main() {
     }
     
     if (!player.isAlive()) {
-        system("cls");
+        system(CLEAR);
         std::cout << "ИГРА ОКОНЧЕНА! Вы погибли." << std::endl;
         std::cout << "Нажмите любую клавишу...";
-        _getch();
+        getKey();
     }
     
     Logger::getInstance().log(" Roguelike Engine Stopped ");

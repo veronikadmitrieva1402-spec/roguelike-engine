@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../include/Enemy.h"
+#include "Enemy.h"
 
 TEST_CASE("Enemy creation", "[enemy]") {
     Enemy goblin("gob_01", "Goblin", 50, 10, 3, "Злобный гоблин");

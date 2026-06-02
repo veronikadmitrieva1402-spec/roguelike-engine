@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../include/Entity.h"
+#include "Entity.h"
 
 TEST_CASE("Entity creation", "[entity]") {
     Entity e("Hero", 100, 20, 10);

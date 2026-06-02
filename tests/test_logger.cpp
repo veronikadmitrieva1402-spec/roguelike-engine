@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../include/Logger.h"
+#include "Logger.h"
 #include <fstream>
 
 TEST_CASE("Logger singleton", "[logger]") {

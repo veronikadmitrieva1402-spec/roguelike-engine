@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "../include/Entity.h"
+#include "Entity.h"
 
 class Enemy;
 class Item;

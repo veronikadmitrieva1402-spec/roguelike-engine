@@ -1,6 +1,6 @@
-#include "../include/Item.h"
-#include "../include/Player.h"
-#include "../include/Logger.h"
+#include "Item.h"
+#include "Player.h"
+#include "Logger.h"
 #include <iostream>  
 
 Item::Item(const std::string& id, const std::string& name, const std::string& type,

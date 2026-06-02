@@ -1,5 +1,5 @@
-#include "../include/MapLoader.h"
-#include "../include/Logger.h"
+#include "MapLoader.h"
+#include "Logger.h"
 #include <fstream>
 
 std::vector<std::string> MapLoader::loadCSV(const std::string& filePath) {
